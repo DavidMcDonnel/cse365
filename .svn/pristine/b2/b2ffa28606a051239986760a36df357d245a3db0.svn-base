@@ -1,0 +1,48 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Square/Main.jack
+
+/**
+ * The Main class initializes a new Square Dance game and starts it.
+ */
+class Main {
+
+    function int quadratic(int a, int b, int c, boolean plus)
+    {
+        var int p1, p2, p3;
+        let p1 = -b;
+        let p2 = Math.sqrt( b * b - (4 * a * c) );
+        let p3 = 2 * a;
+        
+        if(plus){
+            return p1 + p2 / p3;
+        }else{
+            return p1 - p2 / p3;
+        }
+    }
+
+    /** Initializes a new game and starts it. */    
+    function void main() {
+        do Output.printString("Roots for x^2 - 5x + 6: ");
+        do Output.printInt( Main.quadratic(1,-5,6, true) );
+        do Output.printString(" and ");
+        do Output.printInt( Main.quadratic(1,-5,6, false) );
+        
+        do Output.println();
+        
+        do Output.printString("Roots for 2x^2 + 10x - 72: ");
+        do Output.printInt( Main.quadratic(2,10,-72, true) );
+        do Output.printString(" and ");
+        do Output.printInt( Main.quadratic(2,10,-72, false) );
+        
+        do Output.println();
+        
+        do Output.printString("Roots for x^2 + 7: ");
+        do Output.printInt( Main.quadratic(1,0,7, true) );
+        do Output.printString(" and ");
+        do Output.printInt( Main.quadratic(1,0,7, false) );
+
+        return;
+    }
+}

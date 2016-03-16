@@ -1,0 +1,16 @@
+ /*
+ * Empty program. Requires translation of 
+ *     - class
+ *     - subroutineDec with void type
+ *     - statements
+ *     - returnStmt with no expression
+ */
+
+class Main {
+
+   function void main() {
+       return;
+   }
+
+}
+

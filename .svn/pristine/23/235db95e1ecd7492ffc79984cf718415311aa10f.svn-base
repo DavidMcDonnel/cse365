@@ -1,0 +1,138 @@
+package compiler;
+import java.io.File;
+import java.util.HashMap;
+
+public class JackCompiler {
+    private JackSymbolTable st;
+    private VMWriter vm;
+    private String className;
+
+    private HashMap<String, Integer> labels;
+
+    public JackCompiler(String infile, String outfile, boolean debug)
+            throws Exception {
+        JackParser p = new JackParser(infile);
+        SyntaxTreeNode root = p.parseClass();
+        vm = new VMWriter(outfile, debug);
+        st = new JackSymbolTable();
+        labels = new HashMap<String, Integer>();
+
+        className = null;
+        labels = new HashMap<String, Integer>();
+
+        generateCode(root);
+
+        vm.close();
+    }
+
+    public void generateCode(SyntaxTreeNode node) {
+        switch (node.getType()) {
+            case CLASS:
+                classHelper(node);
+            case CLASS_VAR_DEC:
+                classHelper(node);
+            case TYPE:
+                classHelper(node);
+            case SUBROUTINE_DEC:
+                subroutineDecHelper(node);
+            case PARAMETER_LIST:
+                classHelper(node);
+            case VAR_DEC:
+                classHelper(node);
+            case STATEMENTS:
+                stmtHelper(node);
+            case DO_STMT:
+                classHelper(node);
+            case LET_STMT:
+                classHelper(node);
+            case WHILE_STMT:
+                classHelper(node);
+            case RETURN_STMT:
+                returnStmtHelper(node);
+            case IF_STMT:
+                classHelper(node);
+            case EXPRESSION:
+                classHelper(node);
+            case TERM:
+                classHelper(node);
+            case BRACKETS:
+                classHelper(node);
+            case EXPRESSION_LIST:
+                classHelper(node);
+            case SUBROUTINE_CALL:
+                classHelper(node);
+            case TOKEN:
+                classHelper(node);
+            default:
+                System.err.println("Unhandled type " + node.getType());
+        }
+
+    }
+
+    private void classHelper(SyntaxTreeNode node){
+        className = node.getChildren().elementAt(1).getToken().toString();
+        for (int i = 3;i<node.getChildren().size();i++){
+        	generateCode(node.getChildren().elementAt(i));
+        }
+    }
+
+    private void subroutineDecHelper(SyntaxTreeNode node){
+    	vm.write_function(className+"."+node.getChildren().elementAt(2).getToken(), 0);
+    	generateCode(node.getChildren().elementAt(7));
+    }
+
+    private void returnStmtHelper(SyntaxTreeNode node){
+    	vm.writeReturn();
+    }
+
+    private void stmtHelper(SyntaxTreeNode node){
+    	vm.writePush("constant",0);
+    	if (Keyword.RETURN.equals(node.getChildren().firstElement().getToken().toString())){
+    		generateCode(node.getChildren().firstElement());
+    	}
+    }
+
+    private String getLabel(String keyword) {
+        if (!labels.containsKey(keyword)) {
+            labels.put(keyword, 0);
+        }
+
+        int index = labels.get(keyword);
+        String label = keyword + index;
+        labels.put(keyword, index + 1);
+        return label;
+    }
+
+    public static void compile(String filename, boolean debug) throws Exception {
+        System.out.println("Compiling " + filename);
+        File f = new File(filename);
+
+        String folder = f.getParent();
+        String base = Util.basename(filename);
+
+        String outfile = folder + File.separator + "my" + base + ".vm";
+
+        compile(filename, outfile, debug);
+    }
+
+    public static void compile(String infile, String outfile, boolean debug)
+            throws Exception {
+        new JackCompiler(infile, outfile, debug);
+    }
+
+    public static void main(String[] args) {
+        boolean debug = false;
+        for (String arg : args) {
+            if (arg.equals("-d"))
+                debug = true;
+        }
+
+        for (String file : Util.getJackFiles(args)) {
+            try {
+                compile(file, debug);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

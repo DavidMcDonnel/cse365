@@ -1,0 +1,20 @@
+dmcdonnel
+Assignment 01
+
+04/04	Not
+04/04	And
+06/06	Or
+06/06	Xor
+08/08	Mux
+08/08	DMux
+05/05	Not16
+05/05	And16
+05/05	Or16
+05/05	Mux16
+08/08	Or8Way
+09/09	Mux4Way16
+09/09	Mux8Way16
+09/09	DMux4Way
+09/09	DMux8Way
+
+100.0/100.0

@@ -1,0 +1,79 @@
+import java.io.File;
+import java.util.HashMap;
+
+public class JackCompiler {
+    private JackSymbolTable st;
+    private VMWriter vm;
+    private String className;
+
+    private HashMap<String, Integer> labels;
+
+    public JackCompiler(String infile, String outfile, boolean debug)
+            throws Exception {
+        JackParser p = new JackParser(infile);
+        SyntaxTreeNode root = p.parseClass();
+        vm = new VMWriter(outfile, debug);
+        st = new JackSymbolTable();
+        labels = new HashMap<String, Integer>();
+
+        className = null;
+        labels = new HashMap<String, Integer>();
+
+        generateCode(root);
+
+        vm.close();
+    }
+    
+    public void generateCode(SyntaxTreeNode node) {
+        switch (node.getType()) {
+
+        default:
+            System.err.println("Unhandled type " + node.getType());
+        }
+
+    }
+
+    private String getLabel(String keyword) {
+        if (!labels.containsKey(keyword)) {
+            labels.put(keyword, 0);
+        }
+
+        int index = labels.get(keyword);
+        String label = keyword + index;
+        labels.put(keyword, index + 1);
+        return label;
+    }
+
+    public static void compile(String filename, boolean debug) throws Exception {
+        System.out.println("Compiling " + filename);
+        File f = new File(filename);
+
+        String folder = f.getParent();
+        String base = Util.basename(filename);
+
+        String outfile = folder + File.separator + "my" + base + ".vm";
+
+        compile(filename, outfile, debug);
+    }
+
+    public static void compile(String infile, String outfile, boolean debug)
+            throws Exception {
+        new JackCompiler(infile, outfile, debug);
+    }
+
+    public static void main(String[] args) {
+        boolean debug = false;
+        for (String arg : args) {
+            if (arg.equals("-d"))
+                debug = true;
+        }
+
+        for (String file : Util.getJackFiles(args)) {
+            try {
+                compile(file, debug);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

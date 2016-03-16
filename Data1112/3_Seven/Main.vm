@@ -1,0 +1,35 @@
+function Main.main 0
+push constant 1
+push constant 2
+push constant 3
+call Math.multiply 2
+add
+call Output.printInt 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push constant 50
+push constant 1
+sub
+push constant 7
+call Math.divide 2
+call Output.printInt 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push constant 27
+push constant 67
+and
+push constant 4
+or
+call Output.printInt 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push constant 8
+neg
+not
+call Output.printInt 1
+pop temp 0
+push constant 0
+return

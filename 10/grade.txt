@@ -1,0 +1,14 @@
+dmcdonnel
+Assignment 10
+
+05/05	1_ExpressionlessSquare/Main
+10/10	1_ExpressionlessSquare/SquareGame
+10/10	1_ExpressionlessSquare/Square
+05/05	2_Square/Main
+00/10	2_Square/SquareGame
+00/10	2_Square/Square
+00/25	3_ArrayTest/Main
+00/25	4_Quadratic/Main
+
+18.0/100.0
+ -40% - was 30.0

@@ -1,0 +1,52 @@
+from syntax_tree_node import SyntaxTreeNode
+
+class JackParser:
+    def __init__(self, filename):
+        stack = []
+        self.head = None
+        filename = filename.replace('.jack', '.xml')
+        
+        for line in open(filename).readlines():
+            line = line.strip()
+            if '</' in line:
+                index = line.index('</')
+                if index == 0:
+                    # closing statement
+                    stack = stack[:-1]
+                else:
+                    # token
+                    token_name = get_tag_name(line)
+                    text = get_text(line)
+                    node = SyntaxTreeNode(token_name, text)
+                    stack[-1].add_child(node)
+            else:
+                # opening statement
+                tag_name = get_tag_name(line)
+                node = SyntaxTreeNode(tag_name)
+                if self.head is None:
+                    self.head = node
+                else:
+                    stack[-1].add_child(node)
+
+                stack.append(node)
+
+    def parse_class(self):
+        return self.head
+
+
+def get_tag_name(line):
+    index0 = line.index('<')
+    index1 = line.index('>', index0)
+    return line[index0 + 1:index1]
+
+def get_text(line):
+    index0 = line.index('>')
+    index1 = line.index('<', index0)
+    text = line[index0 + 1: index1].strip()
+    for k,v in [("&amp;","&"), ("&lt;", "<"), ("&gt;", ">")]:
+        text = text.replace(k,v)
+    return text 
+    
+if __name__=='__main__':
+    import sys
+    print parseFile(sys.argv[1])

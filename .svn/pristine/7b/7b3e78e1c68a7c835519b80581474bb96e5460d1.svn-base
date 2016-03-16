@@ -1,0 +1,18 @@
+/*
+ * Prints 42. Requires translation of 
+ *     - doStmt
+ *     - subroutineCall
+ *     - expressionList
+ *     - expression with one term
+ *     - term / integerConstant
+ */
+
+class Main {
+
+   function void main() {
+       do Output.printInt(42);
+       return;
+   }
+
+}
+

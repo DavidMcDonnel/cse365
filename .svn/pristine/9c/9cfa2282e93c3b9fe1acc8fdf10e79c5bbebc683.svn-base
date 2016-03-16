@@ -1,0 +1,14 @@
+dmcdonnel
+Assignment 07
+
+00/25	ProgramFlow/BasicLoop
+     	Comparison failure at line 2
+00/15	ProgramFlow/FibonacciSeries
+     	Comparison failure at line 2
+30/30	FunctionCalls/SimpleFunction
+00/15	FunctionCalls/FibonacciElement
+     	Comparison failure at line 2
+00/15	FunctionCalls/StaticsTest
+     	Comparison failure at line 2
+
+30.0/100.0

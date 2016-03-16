@@ -1,0 +1,17 @@
+dmcdonnel
+Assignment 04
+
+mult/Mult
+	30/30	Functionality
+	09/10	Style
+	    	Should have used R1,R2
+fill/Fill
+	30/30	Functionality
+	10/10	Style
+diff/Diff
+	00/15	Functionality
+	    	Comparison failure at line 2
+	04/05	Style
+	    	Close, but not writing into 100 block correctly
+
+83.0/100.0

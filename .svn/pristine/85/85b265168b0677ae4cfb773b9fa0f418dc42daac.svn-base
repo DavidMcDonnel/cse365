@@ -1,0 +1,14 @@
+/*This is a slower 16 bit carry look ahead adder
+  that uses four blocks of 4 bit carry look ahead adders.
+  the last output bit out[16] is the carry out.
+*/
+CHIP carryLookAheadAdder16{
+  IN a[16],b[16],cIn;
+  OUT out[17];
+
+  PARTS:
+  carryLookAheadAdder4(a[0..3],b[0..3],cIn,out[0..3]=out[0..3],out[4]=c0);
+  carryLookAheadAdder4(a[4..7],b[4..7],c0,out[0..3]=out[4..7],out[4]=c1);
+  carryLookAheadAdder4(a[8..11],b[8..11],c1,out[0..3]=out[8..11],out[4]=c2);
+  carryLookAheadAdder4(a[12..15],b[12..15],c2,out[0..3]=out[12..15],out[4]=out[16]);
+}

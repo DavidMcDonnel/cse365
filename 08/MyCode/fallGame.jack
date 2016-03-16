@@ -1,0 +1,144 @@
+class fallGame{
+	field Player player;
+	field Pipe pipe;
+	field int ceiling, floor;
+	field int score, multiplier, count;
+	field boolean collision;
+
+	constructor fallGame new(){
+		let ceiling = 20;
+		let floor = 235;
+		let multiplier = 1;
+		let count = 0;
+		do Pipe.initializeGaps();
+		return this;
+	}
+	
+	method void dispose(){
+		do player.dispose();
+		do pipe.dispose();
+		do Pipe.disposeGaps();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void reset(){
+		do Screen.clearScreen();
+		let player = Player.new(512/4, floor/2);
+		let pipe = Pipe.new();
+		let score = 0;
+		let multiplier = 1;
+		let count = 0;
+		let collision = false;
+		return;
+	}
+	
+	method void run(){
+		while(true){
+			do reset();
+			while(~collision){
+				do updateVelocity();
+				do Screen.setColor(false);
+				if(player.isVisible()){
+					do player.draw();
+				}
+				do pipe.erase();
+				do Screen.setColor(true);
+				do player.updateAltitude();
+				do pipe.shift(player.getSpeed());
+				if(pipe.collidesWith(player)){
+					let collision = true;
+				}
+				else{
+					if(~player.higherThan(floor)){
+						let collision = true;
+						do player.placeOn(floor);
+					}
+				}
+				if(pipe.wasJustPassedBy(player)){
+					let score = score + multiplier;
+					if (count >9){
+						let count = 0;
+						let multiplier = multiplier + 1;
+					}
+					else{
+						let count = count + 1;
+					}
+				}
+				if(player.isVisible()){
+					do player.draw();
+				}
+				if(~pipe.isVisible()){
+					do pipe.reset();
+				}
+				do pipe.draw();
+				do drawFloor();
+				do drawCeiling();
+				do drawScore();
+				do Sys.wait(100);
+			}
+			do gameOver();
+			do waitForKeyPress();
+		}
+		return;
+	}
+
+	method void updateVelocity(){
+		var char key;
+		let key = Keyboard.keyPressed();
+		if(key > 0){
+			do player.hover();
+		}
+		else{
+			do player.fall();
+		}
+		return;
+	}
+	
+	method void drawCeiling(){
+		do Screen.drawRectangle(0,0,511,ceiling);
+		return;
+	}
+
+	method void drawFloor(){
+		do Screen.drawRectangle(0,floor,511,255);
+		return;
+	}
+	
+	method void drawScore(){
+		var String scoreStr;
+		let scoreStr = String.new(3);
+		do scoreString.setInt(score);
+		do Output.moveCursor(0,0);
+		do Output.printString(scoreStr);
+		return;
+	}
+	
+	method void gameOver(){
+		var String msg;
+		var int i;
+		let msg = String.new(3);
+		let i = 0;
+		do msg.setInt(score);
+		while(i < 5){
+			do Screen.setColor(false);
+			do Screen.setColor(true);
+			let i = i + 1;
+		}
+		do Output.moveCursor(10,27);
+		do Output.printString("Game Over");
+		do Output.moveCursor(11,30);
+		do Output.printString(msg);
+		return;
+	}
+
+	method void waitForKeyPress(){
+		var char keyPressed;
+		let keyPressed = 0;
+		while(keyPressed = 0){
+			let keyPressed = Keyboard.keyPressed();
+		}
+		return;
+	}
+}
+

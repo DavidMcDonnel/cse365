@@ -1,0 +1,409 @@
+import java.io.IOException;
+import java.util.Arrays;
+
+public class JackParser {
+    private JackTokenizer jt;
+    private String error;
+    private String[] statementArray;
+    private String[] operations;
+    private String[] typeArray;
+
+    /* Initializes the parser by opening a tokenizer
+     *      with the given filename.
+     */
+    public JackParser(String filename) throws IOException {
+        jt = new JackTokenizer(filename);
+        jt.advance();
+        error = null;
+        statementArray = new String[]{"let","if","while","do","return"};
+        operations = new String[]{"+","-","*","/","&","|","<",">","="};
+        typeArray = new String[]{"int","char","boolean","identifier"};
+    }
+
+    /*
+     * Return true if we've parsed all of the tokens
+     */
+    public boolean isDone() {
+        return !jt.hasMoreTokens();
+    }
+
+    /*
+     * Returns the syntax tree for complete class
+     */
+    public SyntaxTreeNode parseClass() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.CLASS);
+        consumeKeyword(n,Keyword.CLASS);
+        consume(n,TokenType.IDENTIFIER);
+        consumeSymbol(n,"{");
+        while(!isDone()){
+            while(getTokenString().equals("static") || getTokenString().equals("field")){
+                n.addChild(parseClassVariableDeclaration());
+            }
+            while(!getTokenString().equals("}")){
+                n.addChild(parseSubroutine());
+            }
+        }
+        //System.out.println("Finished Class");
+        consumeSymbol(n,"}");
+        return n;
+    }
+
+    public SyntaxTreeNode parseClassVariableDeclaration() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.CLASS_VAR_DEC);
+        if(getTokenString().equals("static")){
+            consumeKeyword(n,Keyword.STATIC);
+        }else if (getTokenString().equals("field")){
+            consumeKeyword(n,Keyword.FIELD);
+        }
+        n.addChild(parseType());
+        while(Character.toString(jt.peek()).equals(",")){
+            consume(n,TokenType.IDENTIFIER);
+            consumeSymbol(n,",");
+        }
+        if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+           consume(n,TokenType.IDENTIFIER);
+        }
+        consumeSymbol(n,";");
+        //System.out.println("Finished class var dec");
+        return n;
+    }
+
+    public SyntaxTreeNode parseType() { //NOT IN BOOK
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.TYPE);
+        String temp = getTokenString();
+        if(temp.equals("int")){
+           consumeKeyword(n,Keyword.INT);
+        }else if(temp.equals("char")){
+            consumeKeyword(n,Keyword.CHAR);
+        }else if(temp.equals("boolean")){
+            consumeKeyword(n,Keyword.BOOLEAN);
+        }else if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+            consume(n,TokenType.IDENTIFIER);
+        }
+        //System.out.println("Finished type");
+        return n;
+    }
+
+    public SyntaxTreeNode parseSubroutine() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.SUBROUTINE_DEC);
+        String temp = getTokenString();
+        if(temp.equals("constructor")){
+            consumeKeyword(n,Keyword.CONSTRUCTOR);
+        } else if(temp.equals("function")){
+            consumeKeyword(n,Keyword.FUNCTION);
+        } else if(temp.equals("method")){
+            consumeKeyword(n,Keyword.METHOD);
+        }
+        temp = getTokenString();
+        if(temp.equals("void")){
+            consumeKeyword(n,Keyword.VOID);
+        } else{
+            n.addChild(parseType());
+        }
+        consume(n,TokenType.IDENTIFIER);
+        consumeSymbol(n,"(");
+        n.addChild(parseParameterList());
+        consumeSymbol(n,")");
+        consumeSymbol(n,"{");
+        while(getTokenString().equals("var")){
+           n.addChild(parseVariableDeclaration());
+        }
+        while(Arrays.asList(statementArray).contains(getTokenString())){
+           n.addChild(parseStatements());
+        }
+        consumeSymbol(n,"}");
+        //System.out.println("Finished subroutine");
+        return n;
+    }
+
+    private SyntaxTreeNode parseParameterList() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.PARAMETER_LIST);
+        while(!getTokenString().equals(")")){
+            if(Arrays.asList(typeArray).contains(getTokenString())){
+                n.addChild(parseType());
+            }
+            while(Character.toString(jt.peek()).equals(",")){
+                consume(n,TokenType.IDENTIFIER);
+                consumeSymbol(n,",");
+            }
+            if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+                consume(n,TokenType.IDENTIFIER);
+            }
+        }
+        //System.out.println("Finished param list");
+        return n;
+    }
+
+    private SyntaxTreeNode parseVariableDeclaration() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.VAR_DEC);
+        consumeKeyword(n,Keyword.VAR);
+        n.addChild(parseType());
+        while(Character.toString(jt.peek()).equals(",")){
+            consume(n,TokenType.IDENTIFIER);
+            consumeSymbol(n,",");
+        }
+        if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+            consume(n,TokenType.IDENTIFIER);
+        }
+        consumeSymbol(n,";");
+        //System.out.println("Finished var dec");
+        return n;
+    }
+
+    private SyntaxTreeNode parseStatements() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.STATEMENTS);
+        String temp = getTokenString();
+        while(!getTokenString().equals("}")){
+            temp = getTokenString();
+            if(temp.equals("let")){
+                n.addChild(parseLet());
+            }else if (temp.equals("if")){
+                n.addChild(parseIf());
+            }else if (temp.equals("while")){
+                n.addChild(parseWhile());
+            }else if (temp.equals("do")){
+                n.addChild(parseDo());
+            }else if (temp.equals("return")){
+                n.addChild(parseReturn());
+            }
+        }
+        //System.out.println("Finished statements");
+        return n;
+    }
+
+    private SyntaxTreeNode parseDo() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.DO_STMT);
+        consumeKeyword(n,Keyword.DO);
+        n.addChild(parseSubroutineCall());
+        consumeSymbol(n,";");
+        //System.out.println("Finished do");
+        return n;
+    }
+
+    private SyntaxTreeNode parseLet() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.LET_STMT);
+        consumeKeyword(n,Keyword.LET);
+        consume(n,TokenType.IDENTIFIER);
+        if(getTokenString().equals("[")){
+            consumeSymbol(n,"[");
+            consume(n,TokenType.INT);
+            consumeSymbol(n,"]");
+        }
+        consumeSymbol(n,"=");
+        n.addChild(parseExpression());
+        consumeSymbol(n,";");
+        //System.out.println("Finished let");
+        return n;
+    }
+
+    private SyntaxTreeNode parseIf() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.IF_STMT);
+        consumeKeyword(n,Keyword.IF);
+        consumeSymbol(n,"(");
+        n.addChild(parseExpression());
+        consumeSymbol(n,")");
+        consumeSymbol(n,"{");
+        n.addChild(parseStatements());
+        consumeSymbol(n,"}");
+        if(getTokenString().equals("else")){
+            consumeKeyword(n,Keyword.ELSE);
+            consumeSymbol(n,"{");
+            n.addChild(parseStatements());
+            consumeSymbol(n,"}");
+        }
+        //System.out.println("Finished if");
+        return n;
+
+    }
+
+    private SyntaxTreeNode parseWhile() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.WHILE_STMT);
+        consumeKeyword(n,Keyword.WHILE);
+        consumeSymbol(n,"(");
+        n.addChild(parseExpression());
+        consumeSymbol(n,")");
+        consumeSymbol(n,"{");
+        n.addChild(parseStatements());
+        consumeSymbol(n,"}");
+        //System.out.println("Finished while");
+        return n;
+    }
+
+    private SyntaxTreeNode parseReturn() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.RETURN_STMT);
+        consumeKeyword(n,Keyword.RETURN);
+        if(!getTokenString().equals(";")){
+            n.addChild(parseExpression());
+        }
+        consumeSymbol(n,";");
+        //System.out.println("Finished return");
+        return n;
+    }
+
+    private SyntaxTreeNode parseExpression() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.EXPRESSION);
+        char c = jt.peek();
+        while(Arrays.asList(operations).contains(jt.peek())){
+            n.addChild(parseTerm());
+            if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+                consumeSymbol(n,getTokenString());
+            }
+        }
+        if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+            n.addChild(parseTerm());
+        }
+        //System.out.println("Finished expression");
+        return n;
+    }
+
+    private SyntaxTreeNode parseTerm() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.TERM);
+        //System.out.println("Started term");
+        if(jt.getToken().type.equals(TokenType.INT)){
+            consume(n,TokenType.INT);
+        }else if(jt.getToken().type.equals(TokenType.STRING)){
+            consume(n,TokenType.STRING);
+        }else if(getTokenString().equals("true")){
+            consumeKeyword(n,Keyword.TRUE);
+        }else if(getTokenString().equals("false")){
+            consumeKeyword(n,Keyword.FALSE);
+        }else if(getTokenString().equals("null")){
+            consumeKeyword(n,Keyword.NULL);
+        }else if(getTokenString().equals("this")){
+            consumeKeyword(n,Keyword.THIS);
+        }else if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+            if(Character.toString(jt.peek()).equals('[')){
+                n.addChild(parseBrackets());
+                if(getTokenString().equals("[")){
+                    n.addChild(parseBrackets());
+                }
+            }else if(getTokenString().equals("(")){
+                consumeSymbol(n,"(");
+                n.addChild(parseExpression());
+                consumeSymbol(n,")");
+            }else if(Character.toString(jt.peek()).equals(".")){
+                n.addChild(parseSubroutineCall());
+            }else{
+                consume(n,TokenType.IDENTIFIER);
+            }
+        }else if(getTokenString().equals("-")){
+            consumeSymbol(n,"-");
+            n.addChild(parseTerm());
+        }else if(getTokenString().equals("~")){
+            consumeSymbol(n,"~");
+            n.addChild(parseTerm());
+        }
+        //System.out.println("Finished term");
+        return n;
+    }
+
+    private SyntaxTreeNode parseSubroutineCall() { //NOT IN BOOK
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.SUBROUTINE_CALL);
+        if(Character.toString(jt.peek()).equals(".")){
+            consume(n,TokenType.IDENTIFIER);
+            consumeSymbol(n,".");
+        }
+        if(jt.getToken().type.equals(TokenType.IDENTIFIER)){
+            consume(n,TokenType.IDENTIFIER);
+        }
+        consumeSymbol(n,"(");
+        if(!Character.toString(jt.peek()).equals(')')){
+            n.addChild(parseExpressionList());
+        }
+        consumeSymbol(n,")");
+        //System.out.println("Finished subroutine call");
+        return n;
+    }
+
+    private SyntaxTreeNode parseExpressionList() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.EXPRESSION_LIST);
+        while(Character.toString(jt.peek()).equals(",")){
+            n.addChild(parseExpression());
+            consumeSymbol(n,",");
+        }
+        if(!getTokenString().equals(")")){
+            n.addChild(parseExpression());
+        }
+        //System.out.println("Finished expression list");
+        return n;
+    }
+
+    private SyntaxTreeNode parseBrackets() { //NOT IN BOOK
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.BRACKETS);
+        consumeSymbol(n,"[");
+        n.addChild(parseExpression());
+        consumeSymbol(n,"]");
+        //System.out.println("Parsed Brackets");
+        return n;
+    }
+
+    /*
+     *  Returns a SyntaxTreeNode representing the current token
+     *      if the token type matches t_type.
+     *      If the type does not match, or we've previously encountered an error,
+     *      the function returns nothing.
+     */
+    private SyntaxTreeNode consume(SyntaxTreeNode parent, TokenType type) {
+        if (error != null)
+            return null;
+        Token t = jt.getToken();
+        if (t.type != type) {
+            error = "Token " + t.token + " is type " + t.type
+                    + ", not the expected " + type;
+            return null;
+        }
+
+        SyntaxTreeNode n = new SyntaxTreeNode(t);
+        // //System.out.println(t);
+        parent.addChild(n);
+        jt.advance();
+        return n;
+    }
+
+    /*
+     * Consumes a Symbol token. If values is not None,
+     *      this will only return if the token matches one of the listed values
+     */
+    private void consumeSymbol(SyntaxTreeNode parent, String symbol) {
+        SyntaxTreeNode n = consume(parent, TokenType.SYMBOL);
+        if (n != null && !n.getToken().token.equals(symbol)) {
+            error = "Symbol is not the expected value " + symbol;
+        }
+    }
+
+    /*
+     * Consumes a Keyword token but this will
+     *      only return if the token matches one of the listed keywords
+     */
+    private void consumeKeyword(SyntaxTreeNode parent,
+            Keyword... valid_keywords) {
+        SyntaxTreeNode n = consume(parent, TokenType.KEYWORD);
+
+        if (n != null) {
+            for (Keyword k : valid_keywords) {
+                if (k.equals(n.getToken().token))
+                    return;
+            }
+            error = "Keyword " + n.getToken() + " is not the expected value";
+        }
+    }
+
+    public static void main(String[] args) {
+        String filename = args[0];
+
+        JackParser parser;
+        try {
+            parser = new JackParser(filename);
+            SyntaxTreeNode n = parser.parseClass();
+            //System.out.println(n.toString());
+            //System.out.println("All tokens parsed: " + parser.isDone());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getTokenString(){
+        return jt.getToken().token;
+    }
+
+}

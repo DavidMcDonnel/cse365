@@ -1,0 +1,8 @@
+dmcdonnel
+Assignment 13
+
+20/20	Memory
+40/80	FinalProject
+	    	HDL code has NUMEROUS syntax and other errors that make it impossible to load into the simulator. 
+
+60.0/100.0

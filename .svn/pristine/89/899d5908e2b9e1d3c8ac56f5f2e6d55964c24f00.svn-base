@@ -1,0 +1,16 @@
+function Main.main 0
+push constant 3
+pop static 0
+push static 0
+pop static 1
+push constant 0
+not
+pop static 2
+push constant 0
+pop static 3
+push constant 39
+pop static 4
+push constant 0
+pop static 5
+push constant 0
+return

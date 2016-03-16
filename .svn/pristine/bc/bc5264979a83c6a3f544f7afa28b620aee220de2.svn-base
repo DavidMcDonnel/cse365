@@ -1,0 +1,76 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * Memory operations library.
+ */
+class Memory {
+
+    static Array availableMemoryBlocks;
+    static int length,next;
+
+    /** Initializes memory parameters. */
+    function void init() {
+        let length = 0;
+        let next = 1;
+        let availableMemoryBlocks = 2048;
+        let availableMemoryBlocks[length] = 16384-2048-1;
+        let availableMemoryBlocks[next] = null;
+        return;
+    }
+
+    /** Returns the value of the main memory at the given address. */
+    function int peek(int address) {
+        var Array tempMemory;
+        let tempMemory = address;
+        return tempMemory[0];
+    }
+
+    /** Sets the value of the main memory at this address
+     *  to the given value. */
+    function void poke(int address, int value) {
+        var Array tempMemory;
+        let tempMemory = address;
+        let tempMemory[0] = value;
+        return;
+    }
+
+    /** finds and allocates from the heap a memory block of the
+     *  specified size and returns a reference to its base address. */
+    function int alloc(int size) {
+        var Array block, prevBlock, nextBlock;
+        let block = availableMemoryBlocks;
+        let prevBlock = 0;
+        while(block[length] < size){
+            let prevBlock = block;
+            let block = block[next];
+            if(block = null){
+            return -1;
+            }
+        }
+        let nextBlock = block + size + 2;
+        let nextBlock[length] = block[length] - size - 2;
+        let nextBlock[next] = block[next];
+        let block[length] = size;
+        let block[next] = null;
+
+        if(prevBlock=0){
+            let availableMemoryBlocks = nextBlock;
+        }
+        else{
+            let prevBlock[next] = nextBlock;
+        }
+        return block+2;
+    }
+
+    /** De-allocates the given object and frees its space. */
+    function void deAlloc(int object) {
+        var array tempBlock;
+        let tempBlock = object-2;
+        let tempBlock[next] = availableMemoryBlocks;
+        let availableMemoryBlocks = tempBlock;
+        return;
+    }
+}

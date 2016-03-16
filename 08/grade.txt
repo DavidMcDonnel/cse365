@@ -1,0 +1,15 @@
+dmcdonnel
+Assignment 08
+
+05/05	Array
+03/15	Keyboard
+     	Interesting usage of array, but should have been capital-A array. The kbd object is of type array, so calling kbd.readChar doesn't make sense. 
+00/15	Math
+     	Stack overflow in Math.divide.5
+15/15	String
+00/40	JackProgram
+     	
+00/10	Ambition
+     	
+
+23.0/100.0

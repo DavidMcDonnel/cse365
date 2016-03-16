@@ -1,0 +1,64 @@
+dmcdonnel
+Assignment 11
+
+00/20	1_Empty/Main
+     	java.lang.NullPointerException
+	at JackCompiler.stmtHelper(JackCompiler.java:89)
+	at JackCompiler.generateCode(JackCompiler.java:42)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:80)
+	at JackCompiler.generateCode(JackCompiler.java:36)
+	at JackCompiler.classHelper(JackCompiler.java:74)
+	at JackCompiler.generateCode(JackCompiler.java:30)
+	at JackCompiler.<init>(JackCompiler.java:22)
+	at JackCompiler.compile(JackCompiler.java:119)
+	at JackCompiler.compile(JackCompiler.java:114)
+	at JackCompiler.main(JackCompiler.java:131)
+00/20	2_FortyTwo/Main
+     	java.lang.NullPointerException
+	at JackCompiler.stmtHelper(JackCompiler.java:89)
+	at JackCompiler.generateCode(JackCompiler.java:42)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:80)
+	at JackCompiler.generateCode(JackCompiler.java:36)
+	at JackCompiler.classHelper(JackCompiler.java:74)
+	at JackCompiler.generateCode(JackCompiler.java:30)
+	at JackCompiler.<init>(JackCompiler.java:22)
+	at JackCompiler.compile(JackCompiler.java:119)
+	at JackCompiler.compile(JackCompiler.java:114)
+	at JackCompiler.main(JackCompiler.java:131)
+00/20	3_Seven/Main
+     	java.lang.NullPointerException
+	at JackCompiler.stmtHelper(JackCompiler.java:89)
+	at JackCompiler.generateCode(JackCompiler.java:42)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:80)
+	at JackCompiler.generateCode(JackCompiler.java:36)
+	at JackCompiler.classHelper(JackCompiler.java:74)
+	at JackCompiler.generateCode(JackCompiler.java:30)
+	at JackCompiler.<init>(JackCompiler.java:22)
+	at JackCompiler.compile(JackCompiler.java:119)
+	at JackCompiler.compile(JackCompiler.java:114)
+	at JackCompiler.main(JackCompiler.java:131)
+00/20	4_Static/Main
+     	java.lang.NullPointerException
+	at JackCompiler.classHelper(JackCompiler.java:72)
+	at JackCompiler.generateCode(JackCompiler.java:32)
+	at JackCompiler.classHelper(JackCompiler.java:74)
+	at JackCompiler.generateCode(JackCompiler.java:30)
+	at JackCompiler.<init>(JackCompiler.java:22)
+	at JackCompiler.compile(JackCompiler.java:119)
+	at JackCompiler.compile(JackCompiler.java:114)
+	at JackCompiler.main(JackCompiler.java:131)
+00/20	5_Quadratic/Main
+     	java.lang.NullPointerException
+	at JackCompiler.classHelper(JackCompiler.java:72)
+	at JackCompiler.generateCode(JackCompiler.java:40)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:80)
+	at JackCompiler.generateCode(JackCompiler.java:36)
+	at JackCompiler.classHelper(JackCompiler.java:74)
+	at JackCompiler.generateCode(JackCompiler.java:30)
+	at JackCompiler.<init>(JackCompiler.java:22)
+	at JackCompiler.compile(JackCompiler.java:119)
+	at JackCompiler.compile(JackCompiler.java:114)
+	at JackCompiler.main(JackCompiler.java:131)
+
+0.0/100.0
+ -20% - was 0.0

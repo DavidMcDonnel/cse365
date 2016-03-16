@@ -1,0 +1,14 @@
+dmcdonnel
+Assignment 06
+
+20/20	StackArithmetic/SimpleAdd
+15/15	StackArithmetic/StackTest
+25/25	MemoryAccess/BasicTest
+05/05	MemoryAccess/StaticTest
+05/05	MemoryAccess/PointerTest
+05/05	VMParser
+16/20	CodeWriter
+	    	Should have modularized some of the repeated code. 
+05/05	VMTranslator
+
+96.0/100.0

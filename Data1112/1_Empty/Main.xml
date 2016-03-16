@@ -1,0 +1,23 @@
+<class>
+ <keyword> class </keyword>
+ <identifier> Main </identifier>
+ <symbol> { </symbol>
+ <subroutineDec>
+  <keyword> function </keyword>
+  <keyword> void </keyword>
+  <identifier> main </identifier>
+  <symbol> ( </symbol>
+  <parameterList>
+  </parameterList>
+  <symbol> ) </symbol>
+  <symbol> { </symbol>
+  <statements>
+   <returnStatement>
+    <keyword> return </keyword>
+    <symbol> ; </symbol>
+   </returnStatement>
+  </statements>
+  <symbol> } </symbol>
+ </subroutineDec>
+ <symbol> } </symbol>
+</class>

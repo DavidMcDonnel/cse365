@@ -1,0 +1,66 @@
+class Player{
+	field int size;
+	field int x, y;
+	field int velocity, speed;
+	field int gravity, terminalVelocity;
+	field int hoverBoots;
+		
+	constructor Player new(int inX,int inY){
+		let size = 10;
+		let x = inX;
+		let y = inY;
+		let velocity = 0;
+		let hoverBoots = -10;
+		let terminalVelocity = 10;
+		let gravity = 1;
+		let speed = 20;
+		return this;
+	}
+		
+	method int getX(){return x;}
+	method int getY(){return y;}
+	method int getSize(){return size;}
+	method int getSpeed(){return speed;}
+	
+	method void hover(){
+		let velocity = hoverBoots;
+		return;
+	}
+
+	method void fall(){
+		let velocity = velocity * gravity;
+		if(velocity > terminalVelocity){
+			let velocity = terminalVelocity;
+		}
+		return;
+	}
+	
+	method void updateAltitude(){
+		let y = y + velocity;
+		return;
+	}
+	
+	method boolean isVisible(){
+		return y - size > 0;
+	}
+	
+	method boolean higherThan(int yPos){
+		return y + size < yPos;
+	}
+	
+	method void placeOn(int yPos){
+		let y = yPos-size;
+		return;
+	}
+	
+	method void draw(){
+		do Screen.drawCircle(x,y,size);
+		return;
+	}
+	
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
+}
+

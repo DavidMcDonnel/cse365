@@ -1,0 +1,293 @@
+function Pipe.initializeGaps 0
+push constant 0
+pop static 2
+push constant 10
+pop static 1
+push static 1
+call Array.new 1
+pop static 0
+push constant 0
+push static 0
+add
+push constant 88
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 0
+add
+push constant 137
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 0
+add
+push constant 62
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 0
+add
+push constant 27
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 0
+add
+push constant 105
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push static 0
+add
+push constant 75
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push static 0
+add
+push constant 26
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push static 0
+add
+push constant 183
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push static 0
+add
+push constant 36
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push static 0
+add
+push constant 98
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Pipe.disposeGaps 0
+push static 0
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
+function Pipe.nextGap 1
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push static 2
+push constant 1
+add
+pop static 2
+push static 2
+push static 1
+push constant 1
+sub
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop static 2
+label IF_FALSE0
+push local 0
+return
+function Pipe.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+call Pipe.reset 1
+pop temp 0
+push pointer 0
+return
+function Pipe.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Pipe.erase 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 0
+push this 0
+push constant 20
+add
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Pipe.shift 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+sub
+pop this 0
+push constant 0
+return
+function Pipe.isVisible 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+neg
+gt
+return
+function Pipe.reset 0
+push argument 0
+pop pointer 0
+push constant 20
+pop this 1
+push constant 511
+push this 1
+sub
+pop this 0
+call Pipe.nextGap 0
+pop this 2
+push constant 50
+pop static 1
+push constant 0
+pop this 4
+push constant 0
+return
+function Pipe.draw 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 0
+push this 0
+push constant 20
+add
+push this 2
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push this 2
+push this 3
+add
+push this 0
+push constant 20
+add
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Pipe.collidesWith 5
+push argument 0
+pop pointer 0
+push argument 1
+call Player.getX 1
+pop local 1
+push argument 1
+call Player.getY 1
+pop local 2
+push argument 1
+call Player.getSize 1
+pop local 3
+push local 1
+push local 3
+add
+pop local 4
+push constant 0
+pop local 0
+push local 4
+push this 0
+gt
+push local 4
+push this 0
+push this 1
+add
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 2
+push local 3
+sub
+push this 2
+lt
+push local 2
+push local 3
+add
+push this 2
+push this 3
+add
+gt
+or
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop local 0
+label IF_FALSE1
+label IF_FALSE0
+push local 0
+return
+function Pipe.wasJustPassedBy 0
+push argument 0
+pop pointer 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push argument 1
+call Player.getX 1
+push argument 1
+call Player.getSize 1
+sub
+push this 0
+push this 1
+add
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop this 4
+push constant 0
+not
+return
+goto IF_END1
+label IF_FALSE1
+push constant 0
+return
+label IF_END1

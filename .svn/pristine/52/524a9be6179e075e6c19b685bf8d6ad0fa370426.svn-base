@@ -1,0 +1,51 @@
+/*
+ * Calculates the roots of equations. Requires translation of 
+ *     - subroutineDec (with type)
+ *     - parameterList
+ *     - varDec
+ *     - term / subroutineCall
+ *     - returnStmt with actual return value
+ */
+
+class Main {
+
+    function int quadratic(int a, int b, int c, int plus)
+    {
+        var int p1, p2, p3;
+        var int m1;
+        
+        let p1 = -b;
+        let p2 = Math.sqrt( b * b - (4 * a * c) );
+        let p3 = 2 * a;
+        
+        // We're cheating here and not using a boolean
+        // so that we don't have to implement if yet
+        let m1 = - 2 * plus - 1;
+        
+        return p1 + (m1 * p2) / p3;
+    }
+
+    function void main() {
+        // Roots for x^2 - 5x + 6
+        // Should print 3 2
+        do Output.printInt( Main.quadratic(1,-5,6, true) );
+        do Output.printChar(32);
+        do Output.printInt( Main.quadratic(1,-5,6, false) );
+        do Output.println();
+        
+        // Roots for 2x^2 + 10x - 72
+        // Should print 4 -9
+        do Output.printInt( Main.quadratic(2,10,-72, true) );
+        do Output.printChar(32);
+        do Output.printInt( Main.quadratic(2,10,-72, false) );
+        do Output.println();
+        
+        // Roots for x^2 + 7
+        // Should print ERR4 (imaginary number)
+        do Output.printInt( Main.quadratic(1,0,7, true) );
+        do Output.printChar(32);
+        do Output.printInt( Main.quadratic(1,0,7, false) );
+
+        return;
+    }
+}

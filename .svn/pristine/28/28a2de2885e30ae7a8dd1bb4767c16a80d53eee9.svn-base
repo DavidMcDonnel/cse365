@@ -1,0 +1,60 @@
+#!/usr/bin/python
+
+import sys
+import os.path
+from jack_compiler import *
+from utils import *
+
+def test(filename):
+    print filename
+    folder = os.path.dirname(filename)
+    base = os.path.basename(filename)
+    core = os.path.splitext(base)[0]
+
+    outputFile = folder + os.sep + 'my' + core + '.vm'
+    compile_it(filename, outputFile)
+    
+    code = read_whole_file(outputFile)
+    code_ref = read_whole_file(folder + os.sep + core + '.vm')
+    
+    result = equal_vm_code(code, code_ref)
+    
+    if not result:
+        alt_fn = folder + os.sep + core + '.vm.alt'
+        if os.path.exists(alt_fn):
+            code_ref = read_whole_file(alt_fn)
+            result = equal_vm_code(code, code_ref)
+   
+    print "\tCompiled correctly?", result
+    return result
+
+def equal_vm_code(s1, s2):
+    s1 = strip_comments(s1)
+    s2 = strip_comments(s2)
+    a1 = s1.split()
+    a2 = s2.split()
+    if len(a1)!=len(a2):
+        return False
+        
+    for t1, t2 in zip(a1, a2):
+        if t1 != t2:
+            return False
+    return True
+    
+def strip_comments(s):
+    return strip_comments2( strip_comments2(s, '/*', '*/', 2), '//', '\n')
+    
+def strip_comments2(s, start, finish, extra=0):
+    while start in s:
+        i1 = s.index(start)
+        i2 = s.index(finish, i1)
+        s = s[:i1] + s[i2 + extra:]
+    return s
+
+if __name__=='__main__':
+    perfect = True
+    for fn in get_jack_files(sys.argv[1:]):
+        perfect = test(fn) and perfect
+    print
+    print "All passed?", perfect
+

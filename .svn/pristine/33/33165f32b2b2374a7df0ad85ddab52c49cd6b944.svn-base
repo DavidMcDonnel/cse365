@@ -1,0 +1,194 @@
+import java.io.IOException;
+
+public class JackParser {
+    private JackTokenizer jt;
+    private String error;
+
+    /* Initializes the parser by opening a tokenizer
+     *      with the given filename.
+     */
+    public JackParser(String filename) throws IOException {
+        jt = new JackTokenizer(filename);
+        jt.advance();
+        error = null;
+    }
+
+    /*
+     * Return true if we've parsed all of the tokens
+     */
+    public boolean isDone() {
+        return !jt.hasMoreTokens();
+    }
+
+    /*
+     * Returns the syntax tree for complete class
+     */
+    public SyntaxTreeNode parseClass() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.CLASS);
+
+        return n;
+    }
+
+    public SyntaxTreeNode parseClassVariableDeclaration() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.CLASS_VAR_DEC);
+
+        return n;
+    }
+
+    public SyntaxTreeNode parseType() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.TYPE);
+
+        return n;
+    }
+
+    public SyntaxTreeNode parseSubroutine() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.SUBROUTINE_DEC);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseParameterList() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.PARAMETER_LIST);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseVariableDeclaration() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.VAR_DEC);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseStatements() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.STATEMENTS);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseDo() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.DO_STMT);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseLet() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.LET_STMT);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseIf() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.IF_STMT);
+
+        return n;
+
+    }
+
+    private SyntaxTreeNode parseWhile() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.WHILE_STMT);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseReturn() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.RETURN_STMT);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseExpression() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.EXPRESSION);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseTerm() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.TERM);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseSubroutineCall() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.SUBROUTINE_CALL);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseExpressionList() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.EXPRESSION_LIST);
+
+        return n;
+    }
+
+    private SyntaxTreeNode parseBrackets() {
+        SyntaxTreeNode n = new SyntaxTreeNode(NodeType.BRACKETS);
+
+        return n;
+    }
+
+    /*
+     *  Returns a SyntaxTreeNode representing the current token 
+     *      if the token type matches t_type.
+     *      If the type does not match, or we've previously encountered an error, 
+     *      the function returns nothing. 
+     */
+    private SyntaxTreeNode consume(SyntaxTreeNode parent, TokenType type) {
+        if (error != null)
+            return null;
+        Token t = jt.getToken();
+        if (t.type != type) {
+            error = "Token " + t.token + " is type " + t.type
+                    + ", not the expected " + type;
+            return null;
+        }
+
+        SyntaxTreeNode n = new SyntaxTreeNode(t);
+        // System.out.println(t);
+        parent.addChild(n);
+        jt.advance();
+        return n;
+    }
+
+    /*
+     * Consumes a Symbol token. If values is not None,
+     *      this will only return if the token matches one of the listed values
+     */
+    private void consumeSymbol(SyntaxTreeNode parent, String symbol) {
+        SyntaxTreeNode n = consume(parent, TokenType.SYMBOL);
+        if (n != null && !n.getToken().token.equals(symbol)) {
+            error = "Symbol is not the expected value " + symbol;
+        }
+    }
+
+    /*
+     * Consumes a Keyword token but this will 
+     *      only return if the token matches one of the listed keywords
+     */
+    private void consumeKeyword(SyntaxTreeNode parent,
+            Keyword... valid_keywords) {
+        SyntaxTreeNode n = consume(parent, TokenType.KEYWORD);
+
+        if (n != null) {
+            for (Keyword k : valid_keywords) {
+                if (k.equals(n.getToken().token))
+                    return;
+            }
+            error = "Keyword " + n.getToken() + " is not the expected value";
+        }
+    }
+
+    public static void main(String[] args) {
+        String filename = args[0];
+
+        JackParser parser;
+        try {
+            parser = new JackParser(filename);
+            SyntaxTreeNode n = parser.parseClass();
+            System.out.println(n.toString());
+            System.out.println("All tokens parsed: " + parser.isDone());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}

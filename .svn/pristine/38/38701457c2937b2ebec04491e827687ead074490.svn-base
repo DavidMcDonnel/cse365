@@ -1,0 +1,27 @@
+/**
+ * Does pretty much nothing.
+ * Requires translation of 
+ *     - classVarDec
+ *     - type
+ *     - letStmt
+ *     - term / identifier
+ *     - term / true false null
+ */
+class Main {
+   static int x, y;
+   static boolean flag, flag2;
+   static char c;
+   static String s;
+   
+   function void main() {
+       let x = 3;
+       let y = x;
+       let flag = true;
+       let flag2 = false;
+       let c = 39;
+       let s = null;
+       return;
+       
+   }
+
+}

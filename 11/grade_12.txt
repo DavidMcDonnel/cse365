@@ -1,0 +1,106 @@
+dmcdonnel
+Assignment 12
+
+00/15	6_ConvertToBin/Main
+00/10	7_HelloWorld/Main
+05/05	8_Square/Main
+00/10	8_Square/SquareGame
+     	java.util.NoSuchElementException
+	at java.util.Vector.firstElement(Vector.java:485)
+	at JackCompiler.expressionListHelper(JackCompiler.java:125)
+	at JackCompiler.generateCode(JackCompiler.java:76)
+	at JackCompiler.subroutineCallHelper(JackCompiler.java:117)
+	at JackCompiler.generateCode(JackCompiler.java:79)
+	at JackCompiler.doHelper(JackCompiler.java:193)
+	at JackCompiler.generateCode(JackCompiler.java:52)
+	at JackCompiler.stmtHelper(JackCompiler.java:184)
+	at JackCompiler.generateCode(JackCompiler.java:49)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:100)
+	at JackCompiler.generateCode(JackCompiler.java:40)
+	at JackCompiler.classHelper(JackCompiler.java:94)
+	at JackCompiler.generateCode(JackCompiler.java:31)
+	at JackCompiler.<init>(JackCompiler.java:23)
+	at JackCompiler.compile(JackCompiler.java:222)
+	at JackCompiler.compile(JackCompiler.java:217)
+	at JackCompiler.main(JackCompiler.java:234)
+00/10	8_Square/Square
+     	java.util.NoSuchElementException
+	at java.util.Vector.firstElement(Vector.java:485)
+	at JackCompiler.expressionListHelper(JackCompiler.java:125)
+	at JackCompiler.generateCode(JackCompiler.java:76)
+	at JackCompiler.subroutineCallHelper(JackCompiler.java:117)
+	at JackCompiler.generateCode(JackCompiler.java:79)
+	at JackCompiler.doHelper(JackCompiler.java:193)
+	at JackCompiler.generateCode(JackCompiler.java:52)
+	at JackCompiler.stmtHelper(JackCompiler.java:184)
+	at JackCompiler.generateCode(JackCompiler.java:49)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:100)
+	at JackCompiler.generateCode(JackCompiler.java:40)
+	at JackCompiler.classHelper(JackCompiler.java:94)
+	at JackCompiler.generateCode(JackCompiler.java:31)
+	at JackCompiler.<init>(JackCompiler.java:23)
+	at JackCompiler.compile(JackCompiler.java:222)
+	at JackCompiler.compile(JackCompiler.java:217)
+	at JackCompiler.main(JackCompiler.java:234)
+15/15	9_Average/Main
+00/15	A_WackyArrays/Main
+05/05	B_Pong/Main
+00/05	B_Pong/Ball
+     	java.util.NoSuchElementException
+	at java.util.Vector.firstElement(Vector.java:485)
+	at JackCompiler.expressionListHelper(JackCompiler.java:125)
+	at JackCompiler.generateCode(JackCompiler.java:76)
+	at JackCompiler.subroutineCallHelper(JackCompiler.java:117)
+	at JackCompiler.generateCode(JackCompiler.java:79)
+	at JackCompiler.doHelper(JackCompiler.java:193)
+	at JackCompiler.generateCode(JackCompiler.java:52)
+	at JackCompiler.stmtHelper(JackCompiler.java:184)
+	at JackCompiler.generateCode(JackCompiler.java:49)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:100)
+	at JackCompiler.generateCode(JackCompiler.java:40)
+	at JackCompiler.classHelper(JackCompiler.java:94)
+	at JackCompiler.generateCode(JackCompiler.java:31)
+	at JackCompiler.<init>(JackCompiler.java:23)
+	at JackCompiler.compile(JackCompiler.java:222)
+	at JackCompiler.compile(JackCompiler.java:217)
+	at JackCompiler.main(JackCompiler.java:234)
+00/05	B_Pong/Bat
+     	java.util.NoSuchElementException
+	at java.util.Vector.firstElement(Vector.java:485)
+	at JackCompiler.expressionListHelper(JackCompiler.java:125)
+	at JackCompiler.generateCode(JackCompiler.java:76)
+	at JackCompiler.subroutineCallHelper(JackCompiler.java:117)
+	at JackCompiler.generateCode(JackCompiler.java:79)
+	at JackCompiler.doHelper(JackCompiler.java:193)
+	at JackCompiler.generateCode(JackCompiler.java:52)
+	at JackCompiler.stmtHelper(JackCompiler.java:184)
+	at JackCompiler.generateCode(JackCompiler.java:49)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:100)
+	at JackCompiler.generateCode(JackCompiler.java:40)
+	at JackCompiler.classHelper(JackCompiler.java:94)
+	at JackCompiler.generateCode(JackCompiler.java:31)
+	at JackCompiler.<init>(JackCompiler.java:23)
+	at JackCompiler.compile(JackCompiler.java:222)
+	at JackCompiler.compile(JackCompiler.java:217)
+	at JackCompiler.main(JackCompiler.java:234)
+00/05	B_Pong/PongGame
+     	java.util.NoSuchElementException
+	at java.util.Vector.firstElement(Vector.java:485)
+	at JackCompiler.expressionListHelper(JackCompiler.java:125)
+	at JackCompiler.generateCode(JackCompiler.java:76)
+	at JackCompiler.subroutineCallHelper(JackCompiler.java:117)
+	at JackCompiler.generateCode(JackCompiler.java:79)
+	at JackCompiler.doHelper(JackCompiler.java:193)
+	at JackCompiler.generateCode(JackCompiler.java:52)
+	at JackCompiler.stmtHelper(JackCompiler.java:184)
+	at JackCompiler.generateCode(JackCompiler.java:49)
+	at JackCompiler.subroutineDecHelper(JackCompiler.java:100)
+	at JackCompiler.generateCode(JackCompiler.java:40)
+	at JackCompiler.classHelper(JackCompiler.java:94)
+	at JackCompiler.generateCode(JackCompiler.java:31)
+	at JackCompiler.<init>(JackCompiler.java:23)
+	at JackCompiler.compile(JackCompiler.java:222)
+	at JackCompiler.compile(JackCompiler.java:217)
+	at JackCompiler.main(JackCompiler.java:234)
+
+25.0/100.0

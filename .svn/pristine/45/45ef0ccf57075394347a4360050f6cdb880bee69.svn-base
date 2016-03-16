@@ -1,0 +1,10 @@
+/*This chip generates the propogate and generate bits
+  to be used in the carry look ahead adder
+*/
+CHIP pAndG{
+	IN a,b;
+	OUT prop,gen;
+
+XOR(a=a,b=b,out=prop);
+AND(a=a,b=b,out=gen);
+}

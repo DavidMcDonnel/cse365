@@ -1,0 +1,316 @@
+function Wall.makeHoles 1
+push constant 0
+pop static 2
+push constant 10
+pop static 1
+push static 1
+call Array.new 1
+pop static 0
+push constant 0
+pop local 0
+push constant 0
+push static 0
+add
+push constant 140
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 0
+add
+push constant 85
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 0
+add
+push constant 250
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 0
+add
+push constant 60
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 0
+add
+push constant 200
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push static 0
+add
+push constant 50
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push static 0
+add
+push constant 180
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push static 0
+add
+push constant 250
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 8
+push static 0
+add
+push constant 50
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 9
+push static 0
+add
+push constant 250
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Wall.disposeHoles 0
+push static 0
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
+function Wall.nextHole 1
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push static 2
+push constant 1
+add
+pop static 2
+push static 2
+push static 1
+push constant 1
+sub
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop static 2
+label IF_FALSE0
+push local 0
+return
+function Wall.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+call Wall.reset 1
+pop temp 0
+push pointer 0
+return
+function Wall.getCleared 1
+push argument 0
+pop pointer 0
+push this 4
+pop local 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 4
+label IF_FALSE0
+push local 0
+return
+function Wall.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Wall.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+push this 0
+push constant 230
+push this 0
+push constant 20
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Wall.shift 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+sub
+pop this 0
+push constant 0
+return
+function Wall.isVisible 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+neg
+gt
+return
+function Wall.reset 0
+push argument 0
+pop pointer 0
+push constant 20
+pop this 1
+push constant 511
+push this 1
+sub
+pop this 0
+call Wall.nextHole 0
+pop this 2
+push constant 50
+pop static 1
+push constant 0
+pop this 4
+push constant 0
+return
+function Wall.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+push this 0
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+push this 0
+push constant 10
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+push constant 40
+add
+push this 0
+push constant 230
+push this 0
+push constant 10
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Wall.collisionDetection 1
+push argument 0
+pop pointer 0
+push constant 0
+not
+pop local 0
+push argument 1
+call Player.getX 1
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+call Player.getY 1
+push this 0
+lt
+push argument 1
+call Player.getY 1
+and
+push this 0
+gt
+push constant 10
+sub
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop local 0
+label IF_FALSE1
+label IF_FALSE0
+push argument 1
+call Player.getX 1
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+push constant 40
+add
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 1
+call Player.getY 1
+push this 0
+lt
+push argument 1
+call Player.getY 1
+and
+push this 0
+gt
+push constant 10
+sub
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+pop local 0
+label IF_FALSE3
+label IF_FALSE2
+push argument 1
+call Player.getY 1
+push this 0
+lt
+push constant 10
+sub
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+not
+pop this 4
+goto IF_END4
+label IF_FALSE4
+push constant 0
+pop this 4
+label IF_END4
+push local 0
+return

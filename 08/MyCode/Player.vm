@@ -1,0 +1,122 @@
+function Player.new 0
+push constant 8
+call Memory.alloc 1
+pop pointer 0
+push constant 10
+pop this 0
+push argument 0
+pop this 1
+push argument 1
+pop this 2
+push constant 0
+pop this 3
+push constant 10
+neg
+pop this 7
+push constant 10
+pop this 6
+push constant 1
+pop this 5
+push constant 20
+pop this 4
+push pointer 0
+return
+function Player.getX 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Player.getY 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Player.getSize 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Player.getSpeed 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Player.hover 0
+push argument 0
+pop pointer 0
+push this 7
+pop this 3
+push constant 0
+return
+function Player.fall 0
+push argument 0
+pop pointer 0
+push this 3
+push this 5
+call Math.multiply 2
+pop this 3
+push this 3
+push this 6
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 6
+pop this 3
+label IF_FALSE0
+push constant 0
+return
+function Player.updateAltitude 0
+push argument 0
+pop pointer 0
+push this 2
+push this 3
+add
+pop this 2
+push constant 0
+return
+function Player.isVisible 0
+push argument 0
+pop pointer 0
+push this 2
+push this 0
+sub
+push constant 0
+gt
+return
+function Player.higherThan 0
+push argument 0
+pop pointer 0
+push this 2
+push this 0
+add
+push argument 1
+lt
+return
+function Player.placeOn 0
+push argument 0
+pop pointer 0
+push argument 1
+push this 0
+sub
+pop this 2
+push constant 0
+return
+function Player.draw 0
+push argument 0
+pop pointer 0
+push this 1
+push this 2
+push this 0
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Player.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
